@@ -5,7 +5,9 @@ function onReady() {
 
     $('#addButton').on('click', addTask);
     getTasks();
-}
+    //saveTask();
+   
+} //end onReady
 
 function getTasks() {
     $.ajax({
@@ -17,8 +19,8 @@ function getTasks() {
             for (var i = 0; i < res.length; i++) {
                 console.log('in for loop');
                 var $trow = $('<tr>');
-                $trow.append('<td>' + res[i].task +'</td>');
-                $trow.append('<td>' + res[i].complete + '</td>');
+                $trow.append('<td>' + res[i].taskname +'</td>');
+                $trow.append('<td>' + res[i].status + '</td>');
                 $('#taskTable').append($trow);
             } //end for loop
         } //end success
@@ -28,8 +30,9 @@ function getTasks() {
 function addTask() {
     console.log('I am clicked.')
     var taskToAdd ={
-        task: $('#task').val(),
-        complete: $('#complete').val()
+        task: $('#inputBox').val()
+        //change '#task' to '#inputBox'
+        //complete: $('#complete').val()
     }
     console.log(taskToAdd);
     $.ajax({
@@ -42,3 +45,5 @@ function addTask() {
         }
     })
 }
+
+  

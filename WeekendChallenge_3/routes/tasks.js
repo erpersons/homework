@@ -34,8 +34,10 @@ router.post('/', function(req, res) {
             console.log(connectionError);
             res.sendStatus(500);
         } else{
-            var tQuery = 'INSERT INTO tasks (task, complete) VALUES($1, $2)';
-            var taskArray = [newTaskObj.task, newTaskObj.complete];
+            console.log('in else of router.post')
+            var tQuery = 'INSERT INTO todo (taskname) VALUES($1)';
+            //todo is table name!
+            var taskArray = [newTaskObj.task];
             client.query(tQuery, taskArray, function(queryError, resultObj){
                 done();
                 if(queryError) {
