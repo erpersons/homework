@@ -44,8 +44,12 @@ function addTask() {
         success: function(res){
             console.log('tasks posted');
             getTasks();
-        }
-    })
-}
+
+        } //end ajax success 
+       
+    }) //end ajax POST
+
+    $('#inputBox').val( 'Task' );
+} //end addTask
 
   
