@@ -19,8 +19,10 @@ function getTasks() {
             for (var i = 0; i < res.length; i++) {
                 console.log('in for loop');
                 var $trow = $('<tr>');
+                var $delBtn = $('<input>', {type: 'button', class: 'deleteMe', value: 'Delete'});
                 $trow.append('<td>' + res[i].taskname +'</td>');
                 $trow.append('<td>' + res[i].status + '</td>');
+                $trow.append($delBtn);
                 $('#taskTable').append($trow);
             } //end for loop
         } //end success
