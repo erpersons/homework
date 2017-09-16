@@ -33,8 +33,7 @@ function addTask() {
     console.log('I am clicked.')
     var taskToAdd ={
         task: $('#inputBox').val()
-        //change '#task' to '#inputBox'
-        //complete: $('#complete').val()
+     
     }
     console.log(taskToAdd);
     $.ajax({
@@ -49,7 +48,7 @@ function addTask() {
        
     }) //end ajax POST
 
-    $('#inputBox').val( 'Task' );
+    $('#inputBox').val( 'Task' ); //reset placeholder
 } //end addTask
 
   
