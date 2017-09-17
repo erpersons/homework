@@ -55,17 +55,17 @@ router.post('/', function (req, res) {
 
 router.delete('/:id', function (req, res) { //is '/:id' right?
     console.log('in delete task route');
-    console.log('req.params.id ->', req.params.id);
-    var dbId = [req.params.id];
+    console.log('req.params.id ->', req.params.id); //logs -> 28
+    var dbId = req.params.id;
 
     //pool.connect
     pool.connect(function (connectionError, client, done) {
         if (connectionError) {
-            console.log('in pool.connect');
+            console.log('in pool.connect', dbId);
             console.log(connectionError);
             res.sendStatus(500);
         } else {
-            client.query('DELETE FROM tasks WHERE id=$1;', [dbId], function (queryError, result) {
+            client.query('DELETE FROM todo WHERE id=$1;', [dbId], function (queryError, result) {
                 done();
                 if (queryError) {
                     console.log(queryError);
