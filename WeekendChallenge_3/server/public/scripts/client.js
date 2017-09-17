@@ -4,10 +4,10 @@ function onReady() {
     console.log('js');
 
     $('#addButton').on('click', addTask);
+
+    $('#taskTable').on('click', '.deleteMe', deleteTask);
     getTasks();
-    //saveTask();
-   
-} //end onReady
+}; //end onReady
 
 function getTasks() {
     $.ajax({
@@ -19,8 +19,12 @@ function getTasks() {
             for (var i = 0; i < res.length; i++) {
                 console.log('in for loop');
                 var $trow = $('<tr>');
-                var $delBtn = $('<input>', {type: 'button', class: 'deleteMe', value: 'Delete'});
-                $trow.append('<td>' + res[i].taskname +'</td>');
+                var $delBtn = $('<input>', {
+                    type: 'button',
+                    class: 'deleteMe',
+                    value: 'Delete'
+                });
+                $trow.append('<td>' + res[i].taskname + '</td>');
                 $trow.append('<td>' + res[i].status + '</td>');
                 $trow.append($delBtn);
                 $('#taskTable').append($trow);
@@ -31,24 +35,38 @@ function getTasks() {
 } //end getTasks
 function addTask() {
     console.log('I am clicked.')
-    var taskToAdd ={
+    var taskToAdd = {
         task: $('#inputBox').val()
-     
+
     }
     console.log(taskToAdd);
     $.ajax({
         type: 'POST',
         url: '/tasks',
         data: taskToAdd,
-        success: function(res){
+        success: function (res) {
             console.log('tasks posted');
             getTasks();
 
         } //end ajax success 
-       
+
     }) //end ajax POST
 
-    $('#inputBox').val( 'Task' ); //reset placeholder
+    $('#inputBox').val('Task'); //reset placeholder
 } //end addTask
+function deleteTask() {
+    var thisId = $(this).parent().data('id'); //questionable inputs -> var thisId = $(this).parent().data('id');
+    console.log('in deleteTask', thisId);
 
-  
+    $.ajax({
+        method: 'DELETE',
+        url: '/tasks/' + thisId, //taskId?
+        data: {
+            id: thisId
+        },
+        success: function (res) {
+            console.log('server responds with', res);
+            getTasks();
+        } //end ajax success
+    }) // end ajax DELETE
+} // end deleteTask function
