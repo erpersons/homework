@@ -7,6 +7,7 @@ router.get('/', function (req, res) {
     pool.connect(function (connectionError, client, done) {
         if (connectionError) {
             console.log(connectionError);
+            // console.log('in router.get');
             res.sendStatus(500);
         } else {
             client.query('SELECT * FROM todo', function (queryError, resultObj) {
@@ -14,7 +15,7 @@ router.get('/', function (req, res) {
                 console.log('in client.query');
                 if (queryError) {
                     console.log('in query error!');
-                    console.log(queryError);
+                    // console.log(queryError);
                     res.sendStatus(500);
                 } else {
                     console.log('resultObj.rows', resultObj.rows);
@@ -60,6 +61,7 @@ router.delete('/:id', function (req, res) { //is '/:id' right?
     //pool.connect
     pool.connect(function (connectionError, client, done) {
         if (connectionError) {
+            console.log('in pool.connect');
             console.log(connectionError);
             res.sendStatus(500);
         } else {
@@ -67,6 +69,7 @@ router.delete('/:id', function (req, res) { //is '/:id' right?
                 done();
                 if (queryError) {
                     console.log(queryError);
+                    console.log('in pool.connect client.query');
                     res.sendStatus(500);
                 } else {
                     res.sendStatus(202);
