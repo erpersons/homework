@@ -6,6 +6,7 @@ function onReady() {
     $('#addButton').on('click', addTask);
 
     $('#taskTable').on('click', '.deleteMe', deleteTask);
+    $('#taskTable').on('click', '.imComplete', completeTask);
     getTasks();
 }; //end onReady
 
@@ -18,16 +19,17 @@ function getTasks() {
             console.log('gotten', res);
             $('#taskTable').empty();
             for (var i = 0; i < res.length; i++) {
-                console.log('in for loop');
+                console.log('in getTasks for loop');
                 // console.log(res[i].id);
-                var $trow = $('<tr id = "' + res[i].id + '">');
+                var $trow = $('<tr id = " + res[i].id + ">');
                 var $id = res[i].id;
                 var $delBtn =
                     $('<td><input type="button" value= "Delete" class="deleteMe" data-id="' + $id + '"></input></td>');
-                var $completeBtn = $('<td><input type = "button" value= "Complete" class = "imComplete" data-id ="' + $id +'"></input></td>');
+                var $completeBtn = $('<td><input type = "checkbox" value= "Complete" class = "imComplete" data-id ="' + $id + '"></input></td>');
                 $trow.append('<td>' + res[i].taskname + '</td>');
                 $trow.append('<td>' + res[i].status + '</td>');
                 $trow.append($delBtn, $completeBtn);
+                // $trow.prepend($completeBtn);
                 $('#taskTable').append($trow);
             } //end for loop
         } //end success
@@ -53,18 +55,15 @@ function addTask() {
 
     }) //end ajax POST
 
-    $('#inputBox').val('Task'); //reset placeholder
+    $('#inputBox').val(''); //reset placeholder 
 } //end addTask
 function deleteTask() {
-    var thisId = $(this).data('id'); //questionable inputs -> var thisId = $(this).parent().data('id');
+    var thisId = $(this).data('id');
     console.log('in deleteTask', thisId);
-
-
-    console.log(this);
 
     $.ajax({
         method: 'DELETE',
-        url: '/tasks/' + thisId, //taskId?
+        url: '/tasks/' + thisId,
 
         success: function (res) {
             console.log('server responds with', res, );
@@ -73,5 +72,16 @@ function deleteTask() {
     }) // end ajax DELETE
 } // end deleteTask function
 function completeTask() {
+    var thisId = $(this).data('id');
+    console.log('in completeTask', thisId);
 
+    $.ajax({
+        method: 'PUT',
+        url: '/tasks/' + thisId,
+
+        success: function(res) {
+            console.log('server responds with', res);
+            getTasks();
+        }
+    })
 } // end completeTask function

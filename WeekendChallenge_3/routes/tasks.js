@@ -52,12 +52,25 @@ router.post('/', function (req, res) {
         } //end if else statement
     }) //end pool.connect
 }) //end router.post
-
-router.delete('/:id', function (req, res) { //is '/:id' right?
-    console.log('in delete task route');
-    console.log('req.params.id ->', req.params.id); //logs -> 28
+router.put('/:id', function (req, res) {
     var dbId = req.params.id;
-
+    console.log('in put task route');
+    console.log('req.params.id ->', req.params.id);
+    pool.connect(function (connectionError, client, done) {
+        if (connectionError) {
+            console.log(connectionError);
+            res.sendStatus(500);
+        } else {
+            'UPDATE todo SET status=true WHERE id =$1';
+            
+            
+        } //end if else
+    }) //end pool.connect
+}) // end router.put
+router.delete('/:id', function (req, res) {
+    var dbId = req.params.id;
+    console.log('in delete task route');
+    console.log('req.params.id ->', req.params.id);
     //pool.connect
     pool.connect(function (connectionError, client, done) {
         if (connectionError) {
@@ -78,4 +91,5 @@ router.delete('/:id', function (req, res) { //is '/:id' right?
         } //end if else
     })
 }) //end router.delete
+
 module.exports = router;
