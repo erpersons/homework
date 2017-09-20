@@ -61,9 +61,17 @@ router.put('/:id', function (req, res) {
             console.log(connectionError);
             res.sendStatus(500);
         } else {
-            'UPDATE todo SET status=true WHERE id =$1';
-            
-            
+            client.query('UPDATE todo SET status=true WHERE id =$1', [dbId], function (queryError, result) {
+                done();
+                if (queryError) {
+                    console.log(queryError);
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(202);
+                }
+            });
+
+
         } //end if else
     }) //end pool.connect
 }) // end router.put
